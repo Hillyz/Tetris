@@ -1,6 +1,7 @@
 import pygame as pg
 
 pg.init()
+pg.mixer.init()
 clock = pg.time.Clock()
 FPS = 60
 fpsCounter = 0

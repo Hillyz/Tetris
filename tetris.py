@@ -4,23 +4,28 @@ import sys
 #Class for a single block, will be used to make shapes later
 class Block(pg.sprite.Sprite):
     def __init__(self, x, y):
-        self.screen = SCREEN
+        pg.sprite.Sprite.__init__(self)
+        self.image = pg.Surface((cellsize, cellsize))
+        self.image.fill((200, 0, 0))
+        self.rect = self.image.get_rect()
+        self.rect.topleft = (win_x//2, win_y//20)
+#        self.screen = SCREEN
         self.x = x
         self.y = y
         self.vel_y = win_y//20
         self.vel_x = win_x//10
 
-    def draw(self):
-        rect = pg.Rect(self.x, self.y, cellsize, cellsize)
-        pg.draw.rect(self.screen, (200, 0, 0), rect)
+#    def draw(self):
+#        rect = pg.Rect(self.x, self.y, cellsize, cellsize)
+#        pg.draw.rect(self.screen, (200, 0, 0), rect)
 
     def move_down(self):
         blocklst = []
         #Block moves downwards naturally
-        if fpsCounter % 100 == 0 and self.y < win_y - win_y//20:
-            self.y += self.vel_y
+        if fpsCounter % 100 == 0 and self.rect.y < win_y - win_y//20:
+            self.rect.y += self.vel_y
         else:
-            self.y = win_y - win_y//20
+            self.rect.y = win_y - win_y//20
 
     def move_right(self):
         if self.x < win_x - win_x//10:
@@ -33,6 +38,10 @@ class Block(pg.sprite.Sprite):
             self.x -= self.vel_x
         else:
             self.x = 0
+
+    def checkCollision(self, sprite2):
+        if self.y > sprite2.y - win_y//20:
+            return True
 
 #Child class, consists of blocks
 class Tetrimino(Block):
@@ -57,6 +66,9 @@ def main():
     block = Block((win_x//2 - win_x//10), win_y//20)
     fpsCounter = 0
     blocks = []
+    locked_blocks = []
+    all_sprites = pg.sprite.Group()
+    all_sprites.add(block)
 
     blocks.append(block)
 
@@ -77,17 +89,31 @@ def main():
         #NB
         #NOT REALLY USEFUL, ONLY TEMPORARY
         for block in blocks:
-            block.draw()
+            #block.draw()
             block.move_down()
             if keys[pg.K_RIGHT]:
                 block.move_right()
             if keys[pg.K_LEFT]:
                 block.move_left()
 
+            #if block.checkCollision(locked_blocks):
+                #locked_blocks.append(block)
+                #blocks.remove(block)
+
         if block.y > win_y - win_y//10:
+            locked_blocks.append(block)
+            blocks.remove(block)
             blocks.append(Block((win_x//2 - win_x//10), win_y//20))
 
 
+
+        for block in locked_blocks:
+            pass
+            #block.draw()
+
+        all_sprites.update()
+
+        all_sprites.draw(SCREEN)
 
         clock.tick(FPS)
         fpsCounter += 1
