@@ -9,15 +9,11 @@ class Block(pg.sprite.Sprite):
         self.image.fill((200, 0, 0))
         self.rect = self.image.get_rect()
         self.rect.topleft = (win_x//2, win_y//20)
-#        self.screen = SCREEN
         self.x = x
         self.y = y
         self.vel_y = win_y//20
         self.vel_x = win_x//10
 
-#    def draw(self):
-#        rect = pg.Rect(self.x, self.y, cellsize, cellsize)
-#        pg.draw.rect(self.screen, (200, 0, 0), rect)
 
     def move_down(self):
         blocklst = []
@@ -28,20 +24,16 @@ class Block(pg.sprite.Sprite):
             self.rect.y = win_y - win_y//20
 
     def move_right(self):
-        if self.x < win_x - win_x//10:
-            self.x += self.vel_x
+        if self.rect.x < win_x - win_x//10:
+            self.rect.x += self.vel_x
         else:
-            self.x = win_x -win_x//10
+            self.rect.x = win_x -win_x//10
 
     def move_left(self):
-        if self.x > 0:
-            self.x -= self.vel_x
+        if self.rect.x > 0:
+            self.rect.x -= self.vel_x
         else:
-            self.x = 0
-
-    def checkCollision(self, sprite2):
-        if self.y > sprite2.y - win_y//20:
-            return True
+            self.rect.x = 0
 
 #Child class, consists of blocks
 class Tetrimino(Block):
