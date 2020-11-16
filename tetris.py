@@ -9,8 +9,6 @@ class Block(pg.sprite.Sprite):
         self.image.fill((200, 0, 0))
         self.rect = self.image.get_rect()
         self.rect.topleft = (win_x//2, 0)
-        #self.rect.bottom = (win_x//2 + win_x//20, win_y//20)
-        #self.rect.top = (win_x//2 + win_x//20, 0)
         self.vel_y = win_y//20
         self.vel_x = win_x//10
 
@@ -37,10 +35,9 @@ class Block(pg.sprite.Sprite):
 
 
     def collision(self, group2):
-        for sprite in group2:
-            collision = pg.sprite.collide_rect(self, sprite)
-            if collision:
-                return True
+        collision = pg.sprite.spritecollide(self, group2, True)
+        if collision:
+            return True
 
 #Child class, consists of blocks
 class Tetrimino(Block):
@@ -107,7 +104,7 @@ def main():
 
             #Block is placed at the bottom, new block is spawned
             #Forced by player
-            if keys[pg.K_SPACE] and movement_delay % 5 == 0:
+            if keys[pg.K_SPACE] and movement_delay % 10 == 0:
                 block.rect.y = win_y - win_y//20
                 dead_blocks.add(block)
                 block.remove(live_blocks)
@@ -121,6 +118,11 @@ def main():
                 block.remove(live_blocks)
                 newblock = Block()
                 live_blocks.add(newblock)
+
+
+            ## ??????
+            #for block in dead_blocks:
+            #    block.rect.topleft = (block.rect.x, win_y - win_y//20)
 
             # Checks if there is collision
             if block.collision(dead_blocks):
