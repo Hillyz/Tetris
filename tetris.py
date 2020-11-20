@@ -48,14 +48,11 @@ class Tetrimino(Block):
 
 
 #draws a grid to show possible block movement
-#TAKES TOO MUCH TIME TO DRAW EACH FRAME, FIND SOLOUTION
 def drawGrid():
-    for x in range(0, win_x, win_x//10):
+    for x in range(0,win_x, win_x//10):
         pg.draw.line(SCREEN, (200, 200, 200), (x, 0), (x, win_y))
     for y in range(0, win_y, win_y//20):
         pg.draw.line(SCREEN, (200, 200, 200), (0, y), (win_x, y))
-
-
 
 
 def main():
@@ -120,6 +117,7 @@ def main():
                 newblock = Block()
                 live_blocks.add(newblock)
 
+
             # Checks if there is collision
             if block.collision(dead_blocks):
                 print("Collision", block.rect.y)
@@ -141,9 +139,7 @@ def main():
         SCREEN.fill(BLACK)
         live_blocks.draw(SCREEN)
         dead_blocks.draw(SCREEN)
-
         drawGrid()
-
 
         #Flip display
         pg.display.update()
