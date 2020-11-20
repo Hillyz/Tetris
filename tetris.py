@@ -35,11 +35,7 @@ class Block(pg.sprite.Sprite):
 
 
     def collision(self, group2):
-<<<<<<< Updated upstream
-        collision = pg.sprite.spritecollide(self, group2, True)
-=======
-        collision = pg.sprite.spritecollide(self, group2, False, )
->>>>>>> Stashed changes
+        collision = pg.sprite.spritecollide(self, group2, False)
         if collision:
             return True
 
@@ -52,26 +48,14 @@ class Tetrimino(Block):
 
 
 #draws a grid to show possible block movement
-<<<<<<< Updated upstream
 #TAKES TOO MUCH TIME TO DRAW EACH FRAME, FIND SOLOUTION
 def drawGrid():
-    cellsize = win_x//10
-    gridlst = []
-    for x in range(win_x):
-        for y in range(win_y):
-            rect = pg.Rect(x*cellsize, y*cellsize, cellsize, cellsize)
-            gridlst.append(rect)
-            #pg.draw.rect(SCREEN, (200, 200, 200), rect, 1)
-    return gridlst
-
-
-=======
-def drawGrid():
-    for x in range(0,win_x, win_x//10):
+    for x in range(0, win_x, win_x//10):
         pg.draw.line(SCREEN, (200, 200, 200), (x, 0), (x, win_y))
     for y in range(0, win_y, win_y//20):
         pg.draw.line(SCREEN, (200, 200, 200), (0, y), (win_x, y))
->>>>>>> Stashed changes
+
+
 
 
 def main():
@@ -80,17 +64,10 @@ def main():
     block = Block()
     fpsCounter = 0
     movement_delay = 0
-<<<<<<< Updated upstream
-    live_blocks = pg.sprite.Group()
-    dead_blocks = pg.sprite.Group()
-    live_blocks.add(block)
-    gridlst = drawGrid()
-=======
     insta_delay = 0
     live_blocks = pg.sprite.Group()
     dead_blocks = pg.sprite.Group()
     live_blocks.add(block)
->>>>>>> Stashed changes
 
 #Game loop
     while run:
@@ -109,14 +86,11 @@ def main():
         #Block movement
         for block in live_blocks:
             movement_delay += 1
-<<<<<<< Updated upstream
-=======
             insta_delay += 1
             #Makes sure that there is no bug because of collision
             if len(live_blocks) > 1:
                 block.remove(live_blocks)
 
->>>>>>> Stashed changes
             #Player key input check
             if keys[pg.K_LEFT] and movement_delay % 5 == 0:
                 block.move_left()
@@ -131,21 +105,13 @@ def main():
 
             #Block is placed at the bottom, new block is spawned
             #Forced by player
-<<<<<<< Updated upstream
-            if keys[pg.K_SPACE] and movement_delay % 10 == 0:
-=======
             if keys[pg.K_SPACE] and insta_delay > 0:
->>>>>>> Stashed changes
                 block.rect.y = win_y - win_y//20
                 dead_blocks.add(block)
                 block.remove(live_blocks)
                 newblock = Block()
                 live_blocks.add(newblock)
-<<<<<<< Updated upstream
-                movement_delay = 0
-=======
                 insta_delay = -50
->>>>>>> Stashed changes
 
             #naturally by block movement
             elif block.rect.y >= win_y - win_y//20:
@@ -154,31 +120,18 @@ def main():
                 newblock = Block()
                 live_blocks.add(newblock)
 
-
-<<<<<<< Updated upstream
-            ## ??????
-            #for block in dead_blocks:
-            #    block.rect.topleft = (block.rect.x, win_y - win_y//20)
-
-            # Checks if there is collision
-            if block.collision(dead_blocks):
-                print("test")
-=======
             # Checks if there is collision
             if block.collision(dead_blocks):
                 print("Collision", block.rect.y)
->>>>>>> Stashed changes
                 dead_blocks.add(block)
                 block.remove(live_blocks)
                 newblock = Block()
                 live_blocks.add(newblock)
-<<<<<<< Updated upstream
-=======
+
                 ## ??????
                 block.rect.topleft = (block.rect.x, block.rect.y - win_y//20)
                 #for block in dead_blocks:
                 #    block.rect.topleft = (block.rect.x, block.rect.y - win_y//20)
->>>>>>> Stashed changes
 
         #Update
         live_blocks.update()
@@ -188,10 +141,9 @@ def main():
         SCREEN.fill(BLACK)
         live_blocks.draw(SCREEN)
         dead_blocks.draw(SCREEN)
-<<<<<<< Updated upstream
-=======
+
         drawGrid()
->>>>>>> Stashed changes
+
 
         #Flip display
         pg.display.update()
